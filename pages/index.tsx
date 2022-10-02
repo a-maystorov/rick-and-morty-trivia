@@ -59,7 +59,14 @@ const Home: NextPage<{ characters: Character[] }> = ({ characters }) => {
 
         <div className="p-4" />
 
-        {answer && <p className="text-3xl text-center pb-8">{answer}</p>}
+        {answer && (
+          <p
+            className={`text-3xl text-center pb-8 ${
+              answer === 'Correct!' ? 'text-green-400' : 'text-red-400'
+            }`}>
+            {answer}
+          </p>
+        )}
 
         <section className="flex justify-around border rounded p-8 min-w-[50%] text-black font-bold">
           <button
