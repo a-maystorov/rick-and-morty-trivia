@@ -21,12 +21,16 @@ const Home: NextPage<{ characters: Character[] }> = ({ characters }) => {
 
     const choice: HTMLButtonElement = e.currentTarget;
 
-    if (choice.name === randomCharacter?.status) {
+    if (
+      choice.name.toLocaleLowerCase() ===
+      randomCharacter?.status.toLocaleLowerCase()
+    ) {
       setCorrect(true);
       setPoints((prev) => prev + 1);
     }
 
-    console.log(choice.name === randomCharacter?.status);
+    console.log('Char Status: ', randomCharacter?.status);
+    console.log('Choice: ', choice.name);
   };
 
   return (
