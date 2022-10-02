@@ -1,20 +1,21 @@
 import Head from 'next/head';
-import type { NextPage, GetServerSideProps, GetStaticProps } from 'next';
+import type { NextPage, GetStaticProps } from 'next';
 
 import { Character, GetCharacterResults } from '../types';
-import { useEffect, useState, useRef, ButtonHTMLAttributes } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 const Home: NextPage<{ characters: Character[] }> = ({ characters }) => {
   const [randomCharacter, setRandomCharacter] = useState<Character>();
-  const [correct, setCorrect] = useState(false);
+  const [answer, setAnswer] = useState('');
   const [points, setPoints] = useState(0);
 
   useEffect(() => {
     setRandomCharacter(
       characters[Math.floor(Math.random() * characters.length)]
     );
-  }, [characters]);
+    setAnswer('');
+  }, [characters, points]);
 
   const handleChoice = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -25,12 +26,12 @@ const Home: NextPage<{ characters: Character[] }> = ({ characters }) => {
       choice.name.toLocaleLowerCase() ===
       randomCharacter?.status.toLocaleLowerCase()
     ) {
-      setCorrect(true);
-      setPoints((prev) => prev + 1);
+      setAnswer('Correct!');
+      setTimeout(() => setPoints((prev) => prev + 1), 2000);
+    } else {
+      setAnswer('Wrong!');
+      setTimeout(() => setPoints((prev) => prev - 1), 2000);
     }
-
-    console.log('Char Status: ', randomCharacter?.status);
-    console.log('Choice: ', choice.name);
   };
 
   return (
@@ -58,11 +59,7 @@ const Home: NextPage<{ characters: Character[] }> = ({ characters }) => {
 
         <div className="p-4" />
 
-        {correct && (
-          <p className="text-2xl text-center pb-8">
-            {correct ? 'Correct!' : 'Wrong!'}
-          </p>
-        )}
+        {answer && <p className="text-3xl text-center pb-8">{answer}</p>}
 
         <section className="flex justify-around border rounded p-8 min-w-[50%] text-black font-bold">
           <button
