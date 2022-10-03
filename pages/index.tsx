@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import type { NextPage, GetStaticProps } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 
 import { Character, GetCharacterResults } from '../types';
 import { useEffect, useState } from 'react';
@@ -105,7 +105,7 @@ const Home: NextPage<{ characters: Character[] }> = ({ characters }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await fetch('https://rickandmortyapi.com/api/character');
   const { results }: GetCharacterResults = await res.json();
 
